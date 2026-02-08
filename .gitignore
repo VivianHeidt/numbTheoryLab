@@ -5,3 +5,10 @@
 *.pdb
 *.log
 .vscode/
+/build/
+/build-*/
+CMakeFiles/
+CMakeCache.txt
+*.sln
+*.vcxproj*
+
