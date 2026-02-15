@@ -6,6 +6,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_library(ntlab STATIC
     src/arithmetic.cpp
     src/primes.cpp
+    src/factor.cpp
 )
 target_include_directories(ntlab PUBLIC include)
 
