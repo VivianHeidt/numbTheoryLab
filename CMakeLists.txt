@@ -7,6 +7,7 @@ add_library(ntlab STATIC
     src/arithmetic.cpp
     src/primes.cpp
     src/factor.cpp
+    src/congruence.cpp
 )
 target_include_directories(ntlab PUBLIC include)
 

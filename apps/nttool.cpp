@@ -4,6 +4,7 @@
 #include "ntlab/arithmetic.hpp"
 #include "ntlab/primes.hpp"
 #include "ntlab/factor.hpp"
+#include "ntlab/congruence.hpp"
 
 
 int main( int argc, char* argv[] ) 
@@ -18,7 +19,8 @@ int main( int argc, char* argv[] )
                   << "  nttool inv a m\n"
                   << "  nttool powmod a e m\n"
                   << "  nttool isprime n\n"
-                  << "  nttool factor n\n"; 
+                  << "  nttool factor n\n"
+                  << "  nttool crt r1 m1 r2 m2\n";
         return 1;
     }
 
@@ -69,6 +71,20 @@ int main( int argc, char* argv[] )
                     std::cout << fs[i];
                 }
                 std::cout << "\n";
+            }
+        }
+        else if (cmd == "crt" && argc == 6)
+        {
+            u64 r1 = std::stoull(argv[2]);
+            u64 m1 = std::stoull(argv[3]);
+            u64 r2 = std::stoull(argv[4]);
+            u64 m2 = std::stoull(argv[5]);
+
+            auto res = crt(r1, m1, r2, m2);
+            if (!res) {
+                std::cout << "no solution\n";
+            } else {
+                std::cout << res->first << " " << res->second << "\n"; // r M
             }
         }
         else 
