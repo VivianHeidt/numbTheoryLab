@@ -281,19 +281,6 @@ Potential future extensions:
 
 ---
 
-# Motivation
-
-This project was started as a personal exploration of:
-
-* algorithmic number theory
-* systems programming
-* performance-oriented C++
-* mathematical software engineering
-
-It also serves as a long-term learning project and portfolio project.
-
----
-
 # License
 
 MIT License
