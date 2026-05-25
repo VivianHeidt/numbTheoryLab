@@ -74,7 +74,7 @@ XgcdResult xgcd_u64( u64 A, u64 B ) noexcept
 // ------------- modular inverse -------
 std::optional<u64> modinv( u64 a, u64 m ) noexcept 
 {
-    if ( m == 0 ) return std::nullopt;
+    if (m <= 1) return std::nullopt;
     a %= m;
     auto r = xgcd_u64( a, m );
     if ( r.g != 1 ) return std::nullopt;

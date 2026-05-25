@@ -96,7 +96,7 @@ static void factor_rec( u64 n, std::vector<u64>& out ) noexcept
 namespace ntlab 
 {
 
-u64 pollard_roh( u64 n ) noexcept
+u64 pollard_rho( u64 n ) noexcept
 {
     if( n < 2 ) return n;
     if( ( n & 1ULL ) == 0 ) return 2;

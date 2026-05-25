@@ -67,6 +67,7 @@ bool miller_rabin(ntlab::u64 n) noexcept
 
 
 namespace ntlab 
+
 {
 
 bool is_prime(u64 n) noexcept
