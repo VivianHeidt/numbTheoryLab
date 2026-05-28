@@ -5,47 +5,47 @@
 
 using namespace ntlab;
 
-void check_factorization(u64 n)
+void check_factorization( u64 n )
 {
-    auto f = factorize(n);
+    auto f = factorize( n );
 
     u64 product = 1;
 
-    for (u64 p : f)
+    for ( u64 p : f )
     {
-        REQUIRE(is_prime(p));
+        REQUIRE( is_prime( p ) );
         product *= p;
     }
 
-    REQUIRE(product == n);
+    REQUIRE( product == n );
 }
 
-TEST_CASE("factorize_properties_work")
+TEST_CASE( "factorize_properties_work" )
 {
-    check_factorization(1);
-    check_factorization(2);
-    check_factorization(84);
-    check_factorization(97);
-    check_factorization(600851475143ULL);
+    check_factorization( 1 );
+    check_factorization( 2 );
+    check_factorization( 84 );
+    check_factorization( 97 );
+    check_factorization( 600851475143ULL );
 }
 
-TEST_CASE("factorize_known_values")
+TEST_CASE( "factorize_known_values" )
 {
-    REQUIRE(factorize(1).empty());
-    REQUIRE(factorize(2) == std::vector<u64>{2});
-    REQUIRE(factorize(84) == std::vector<u64>{2, 2, 3, 7});
-    REQUIRE(factorize(97) == std::vector<u64>{97});
-    REQUIRE(factorize(600851475143ULL) == std::vector<u64>{71, 839, 1471, 6857});
+    REQUIRE( factorize( 1 ).empty() );
+    REQUIRE( factorize( 2 ) == std::vector<u64>{ 2 } );
+    REQUIRE( factorize( 84 ) == std::vector<u64>{ 2, 2, 3, 7 } );
+    REQUIRE( factorize( 97 ) == std::vector<u64>{ 97 } );
+    REQUIRE( factorize( 600851475143ULL ) == std::vector<u64>{ 71, 839, 1471, 6857 } );
 }
 
-TEST_CASE("pollard_rho_finds_nontrivial_factors")
+TEST_CASE( "pollard_rho_finds_nontrivial_factors" )
 {
-    for (u64 n : {91ULL, 221ULL, 8051ULL})
+    for ( u64 n : { 91ULL, 221ULL, 8051ULL } )
     {
-        u64 d = pollard_rho(n);
+        u64 d = pollard_rho( n );
 
-        REQUIRE(d != 1);
-        REQUIRE(d != n);
-        REQUIRE(n % d == 0);
+        REQUIRE( d != 1 );
+        REQUIRE( d != n );
+        REQUIRE( n % d == 0 );
     }
 }

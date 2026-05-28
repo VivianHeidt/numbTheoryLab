@@ -10,6 +10,10 @@ add_library(ntlab STATIC
     src/primes.cpp
     src/factor.cpp
     src/congruence.cpp
+    src/sieve.cpp
+    src/divisors.cpp
+    src/utils.cpp 
+    src/totient.cpp 
 )
 
 target_include_directories(ntlab PUBLIC include)
@@ -36,6 +40,10 @@ add_executable(ntlab_tests
     tests/test_primes.cpp
     tests/test_factor.cpp
     tests/test_congruence.cpp
+    tests/test_sieve.cpp
+    tests/test_divisors.cpp
+    tests/test_utils.cpp 
+    tests/test_totient.cpp 
 )
 
 target_link_libraries(ntlab_tests
