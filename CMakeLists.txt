@@ -14,6 +14,8 @@ add_library(ntlab STATIC
     src/divisors.cpp
     src/utils.cpp 
     src/totient.cpp 
+    src/mobius.cpp
+    src/residue.cpp
 )
 
 target_include_directories(ntlab PUBLIC include)
@@ -43,7 +45,9 @@ add_executable(ntlab_tests
     tests/test_sieve.cpp
     tests/test_divisors.cpp
     tests/test_utils.cpp 
-    tests/test_totient.cpp 
+    tests/test_totient.cpp
+    tests/test_mobius.cpp
+    tests/test_residue.cpp
 )
 
 target_link_libraries(ntlab_tests
