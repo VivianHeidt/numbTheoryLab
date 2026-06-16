@@ -10,6 +10,7 @@
 #include "ntlab/totient.hpp"
 #include "ntlab/mobius.hpp"
 #include "ntlab/residue.hpp"
+#include "ntlab/multiplicative.hpp"
 
 int main( int argc, char* argv[] ) 
 {
@@ -34,8 +35,14 @@ int main( int argc, char* argv[] )
                   << "  nttool mobius n\n"
                   << "  nttool legendre a p\n"
                   << "  nttool jacobi a n\n"
-                  << "  nttool sqrtmod a p\n";
-
+                  << "  nttool sqrtmod a p\n"
+                  << "  nttool identity n\n"
+                  << "  nttool one n\n"
+                  << "  nttool liouville n\n"
+                  << "  nttool epsilon n\n"
+                  << "  nttool conv one one n\n"
+                  << "  nttool conv identity one n\n"
+                  << "  nttool conv identity mobius n\n";
         return 1;
     }
 
@@ -198,6 +205,26 @@ int main( int argc, char* argv[] )
             {
                 std::cout << "no solution\n";
             }
+        }
+        else if ( cmd == "identity" && argc == 3 )
+        {
+            u64 n = std::stoull(argv[2]);
+            std::cout << identity(n) << "\n";
+        }
+        else if ( cmd == "one" && argc == 3 )
+        {
+            u64 n = std::stoull(argv[2]);
+            std::cout << one(n) << "\n";
+        }
+        else if ( cmd == "liouville" && argc == 3 )
+        {
+            u64 n = std::stoull(argv[2]);
+            std::cout << liouville(n) << "\n";
+        }
+        else if ( cmd == "epsilon" && argc == 3 )
+        {
+            u64 n = std::stoull(argv[2]);
+            std::cout << epsilon(n) << "\n";
         }
         else 
         {

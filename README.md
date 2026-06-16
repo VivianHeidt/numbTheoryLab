@@ -1,6 +1,6 @@
 # Number Theory Lab (C++)
 
-A modern C++17 playground for experimenting with classical number theory algorithms, modular arithmetic, primality testing, factorization, arithmetic functions, and quadratic residues.
+A modern C++17 playground for experimenting with classical number theory algorithms, modular arithmetic, primality testing, factorization, arithmetic functions, multiplicative number theory, and quadratic residues.
 
 The goal of this project is both educational and practical:
 
@@ -44,6 +44,11 @@ The goal of this project is both educational and practical:
 
 * Euler's Totient Function `phi(n)`
 * Möbius Function `mu(n)`
+* Liouville Function `lambda(n)`
+* Identity Function `id(n)`
+* Constant-One Function `1(n)`
+* Dirichlet Identity `epsilon(n)`
+* Generic Dirichlet Convolution
 
 ## Quadratic Residues
 
@@ -78,6 +83,7 @@ numbTheoryLab/
 │     ├─ divisors.hpp
 │     ├─ factor.hpp
 │     ├─ mobius.hpp
+│     ├─ multiplicative.hpp
 │     ├─ primes.hpp
 │     ├─ residue.hpp
 │     ├─ sieve.hpp
@@ -89,6 +95,7 @@ numbTheoryLab/
 │  ├─ divisors.cpp
 │  ├─ factor.cpp
 │  ├─ mobius.cpp
+│  ├─ multiplicative.cpp
 │  ├─ primes.cpp
 │  ├─ residue.cpp
 │  ├─ sieve.cpp
@@ -100,6 +107,7 @@ numbTheoryLab/
 │  ├─ test_divisors.cpp
 │  ├─ test_factor.cpp
 │  ├─ test_mobius.cpp
+│  ├─ test_multiplicative.cpp
 │  ├─ test_primes.cpp
 │  ├─ test_residue.cpp
 │  ├─ test_sieve.cpp
@@ -315,6 +323,72 @@ Output:
 -1
 ```
 
+### Identity Function
+
+```bash
+./build/nttool identity 42
+```
+
+Output:
+
+```text
+42
+```
+
+### Constant-One Function
+
+```bash
+./build/nttool one 123
+```
+
+Output:
+
+```text
+1
+```
+
+### Dirichlet Identity
+
+```bash
+./build/nttool epsilon 1
+```
+
+Output:
+
+```text
+1
+```
+
+```bash
+./build/nttool epsilon 17
+```
+
+Output:
+
+```text
+0
+```
+
+### Liouville Function
+
+```bash
+./build/nttool liouville 72
+```
+
+Output:
+
+```text
+-1
+```
+
+because
+
+```text
+72 = 2³ · 3²
+Ω(72) = 5
+λ(72) = (-1)^5 = -1
+```
+
 ### Legendre Symbol
 
 ```bash
@@ -376,9 +450,20 @@ The tests cover:
 * divisor functions
 * Euler phi
 * Möbius function
+* Liouville function
+* Dirichlet convolution
 * quadratic residue algorithms
 * CRT consistency
 * edge cases and invalid inputs
+
+The test suite additionally verifies classical identities from multiplicative number theory:
+
+```text
+τ = 1 * 1
+σ = id * 1
+φ = id * μ
+f * ε = f
+```
 
 ---
 
@@ -440,6 +525,44 @@ mu(n)
 
 used in multiplicative number theory and inversion formulas.
 
+## Liouville Function
+
+Computes:
+
+```text
+λ(n) = (-1)^Ω(n)
+```
+
+where Ω(n) denotes the number of prime factors counted with multiplicity.
+
+Examples:
+
+```text
+λ(12) = -1
+λ(36) = 1
+```
+
+## Dirichlet Convolution
+
+Given two arithmetic functions `f` and `g`, the Dirichlet convolution is defined as
+
+```text
+(f * g)(n)
+=
+Σ f(d) g(n/d)
+  d|n
+```
+
+This operation plays a central role in multiplicative number theory and allows many classical arithmetic functions to be expressed compactly:
+
+```text
+τ = 1 * 1
+σ = id * 1
+φ = id * μ
+```
+
+The library provides a generic implementation of Dirichlet convolution for arbitrary arithmetic functions.
+
 ## Legendre Symbol
 
 Determines whether an integer is a quadratic residue modulo an odd prime.
@@ -473,13 +596,18 @@ Combines compatible congruence systems into a single congruence.
 
 Potential future extensions:
 
+* Dirichlet inverse
+* General multiplicative-function framework
 * Carmichael function λ(n)
 * Primitive roots
+* Continued fractions
+* Pell equations
 * Baby-step Giant-step discrete logarithm
 * Miller–Rabin benchmarking
 * Pollard Rho optimizations
 * RSA demonstration
 * Finite fields
+* Elliptic curves
 * Big integer arithmetic
 * FFT / NTT multiplication
 * Benchmarking suite

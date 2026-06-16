@@ -1,9 +1,4 @@
-#include <vector>
-#include <map>
-#include <algorithm>
-#include "ntlab/divisors.hpp"
 #include "ntlab/mobius.hpp"
-#include "ntlab/utils.hpp"
 
 namespace ntlab
 {
