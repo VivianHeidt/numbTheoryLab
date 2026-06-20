@@ -1,6 +1,6 @@
 # Number Theory Lab (C++)
 
-A modern C++17 playground for experimenting with classical number theory algorithms, modular arithmetic, primality testing, factorization, arithmetic functions, multiplicative number theory, and quadratic residues.
+A modern C++17 playground for experimenting with classical number theory algorithms, modular arithmetic, primality testing, factorization, arithmetic functions, multiplicative number theory, primitive roots, and quadratic residues.
 
 The goal of this project is both educational and practical:
 
@@ -18,6 +18,8 @@ The goal of this project is both educational and practical:
 
 * Euclidean GCD
 * Extended Euclidean Algorithm
+* Least Common Multiple (LCM)
+* Integer exponentiation
 * Modular inverse
 * Overflow-safe modular multiplication
 * Fast modular exponentiation
@@ -33,6 +35,7 @@ The goal of this project is both educational and practical:
 
 * Pollard Rho factorization
 * Recursive prime factorization
+* Prime factor exponent extraction
 
 ## Divisor Functions
 
@@ -43,18 +46,22 @@ The goal of this project is both educational and practical:
 ## Arithmetic Functions
 
 * Euler's Totient Function `phi(n)`
+* Carmichael Function `lambda_C(n)`
 * Möbius Function `mu(n)`
 * Liouville Function `lambda(n)`
 * Identity Function `id(n)`
 * Constant-One Function `1(n)`
 * Dirichlet Identity `epsilon(n)`
 * Generic Dirichlet Convolution
+* Möbius Inversion
 
-## Quadratic Residues
+## Quadratic Residues & Cyclic Groups
 
 * Legendre Symbol
 * Jacobi Symbol
 * Tonelli–Shanks modular square roots
+* Primitive root testing
+* Primitive root computation
 
 ## Congruences
 
@@ -67,6 +74,7 @@ The goal of this project is both educational and practical:
 * Modular library design
 * Unit tests with Catch2
 * Cross-platform compatible
+* Command-line interface (`nttool`)
 
 ---
 
@@ -88,31 +96,10 @@ numbTheoryLab/
 │     ├─ residue.hpp
 │     ├─ sieve.hpp
 │     ├─ totient.hpp
+│     ├─ types.hpp
 │     └─ utils.hpp
 ├─ src/
-│  ├─ arithmetic.cpp
-│  ├─ congruence.cpp
-│  ├─ divisors.cpp
-│  ├─ factor.cpp
-│  ├─ mobius.cpp
-│  ├─ multiplicative.cpp
-│  ├─ primes.cpp
-│  ├─ residue.cpp
-│  ├─ sieve.cpp
-│  ├─ totient.cpp
-│  └─ utils.cpp
 ├─ tests/
-│  ├─ test_arithmetic.cpp
-│  ├─ test_congruence.cpp
-│  ├─ test_divisors.cpp
-│  ├─ test_factor.cpp
-│  ├─ test_mobius.cpp
-│  ├─ test_multiplicative.cpp
-│  ├─ test_primes.cpp
-│  ├─ test_residue.cpp
-│  ├─ test_sieve.cpp
-│  ├─ test_totient.cpp
-│  └─ test_utils.cpp
 ├─ CMakeLists.txt
 └─ README.md
 ```
@@ -127,18 +114,11 @@ numbTheoryLab/
 * C++17 compatible compiler
 * GCC / Clang / MSVC
 
-## Build (MinGW / GCC)
-
-```bash
-cmake -S . -B build -G "MinGW Makefiles"
-cmake --build build
-```
-
-## Build (Visual Studio)
+## Build
 
 ```bash
 cmake -S . -B build
-cmake --build build --config Debug
+cmake --build build
 ```
 
 ---
@@ -159,42 +139,6 @@ Output:
 
 ```text
 6
-```
-
-### Extended GCD
-
-```bash
-./build/nttool xgcd 30 12
-```
-
-Output:
-
-```text
-1 -2 6
-```
-
-### Modular Inverse
-
-```bash
-./build/nttool inv 3 11
-```
-
-Output:
-
-```text
-4
-```
-
-### Modular Exponentiation
-
-```bash
-./build/nttool powmod 2 10 1000
-```
-
-Output:
-
-```text
-24
 ```
 
 ### Primality Test
@@ -221,85 +165,7 @@ Output:
 2 2 3 7
 ```
 
-### Chinese Remainder Theorem
-
-```bash
-./build/nttool crt 2 3 3 5
-```
-
-Output:
-
-```text
-8 15
-```
-
-Meaning:
-
-```text
-x ≡ 8 (mod 15)
-```
-
-### Sieve
-
-```bash
-./build/nttool primes 20
-```
-
-Output:
-
-```text
-2 3 5 7 11 13 17 19
-```
-
-### Prime Count
-
-```bash
-./build/nttool countprimes 100
-```
-
-Output:
-
-```text
-25
-```
-
-### Divisor Count
-
-```bash
-./build/nttool tau 12
-```
-
-Output:
-
-```text
-6
-```
-
-### Divisor Sum
-
-```bash
-./build/nttool sigma 12
-```
-
-Output:
-
-```text
-28
-```
-
-### Divisors
-
-```bash
-./build/nttool divisors 12
-```
-
-Output:
-
-```text
-1 2 3 4 6 12
-```
-
-### Euler Phi
+### Euler Totient Function
 
 ```bash
 ./build/nttool phi 36
@@ -350,16 +216,6 @@ Output:
 ### Dirichlet Identity
 
 ```bash
-./build/nttool epsilon 1
-```
-
-Output:
-
-```text
-1
-```
-
-```bash
 ./build/nttool epsilon 17
 ```
 
@@ -389,16 +245,42 @@ because
 λ(72) = (-1)^5 = -1
 ```
 
+### Dirichlet Convolution Examples
+
+```bash
+./build/nttool conv one one 12
+```
+
+computes
+
+```text
+(1 * 1)(12) = τ(12)
+```
+
+```bash
+./build/nttool conv identity one 12
+```
+
+computes
+
+```text
+(id * 1)(12) = σ(12)
+```
+
+```bash
+./build/nttool conv identity mobius 12
+```
+
+computes
+
+```text
+(id * μ)(12) = φ(12)
+```
+
 ### Legendre Symbol
 
 ```bash
 ./build/nttool legendre 5 11
-```
-
-Output:
-
-```text
-1
 ```
 
 ### Jacobi Symbol
@@ -407,25 +289,11 @@ Output:
 ./build/nttool jacobi 5 21
 ```
 
-Output:
-
-```text
-1
-```
-
 ### Modular Square Root
 
 ```bash
 ./build/nttool sqrtmod 10 13
 ```
-
-Output:
-
-```text
-6
-```
-
-(or another valid square root modulo 13)
 
 ---
 
@@ -433,35 +301,35 @@ Output:
 
 The project uses Catch2 for unit testing.
 
-## Build and run tests
+Run:
 
 ```bash
-cmake -S . -B build -G "MinGW Makefiles"
-cmake --build build
 ./build/ntlab_tests
 ```
 
-The tests cover:
+Current test suite:
 
 * arithmetic correctness
 * modular arithmetic
 * primality testing
-* factorization properties
+* factorization
 * divisor functions
-* Euler phi
+* Euler totient
+* Carmichael function
 * Möbius function
 * Liouville function
-* Dirichlet convolution
-* quadratic residue algorithms
+* primitive roots
+* quadratic residues
 * CRT consistency
-* edge cases and invalid inputs
+* Dirichlet convolution identities
 
-The test suite additionally verifies classical identities from multiplicative number theory:
+The test suite verifies classical identities from multiplicative number theory:
 
 ```text
 τ = 1 * 1
 σ = id * 1
 φ = id * μ
+μ * 1 = ε
 f * ε = f
 ```
 
@@ -471,33 +339,35 @@ f * ε = f
 
 ## Euclidean Algorithm
 
-Computes:
+Computes
 
 ```text
-gcd(a, b)
+gcd(a,b)
 ```
 
 in logarithmic time.
 
 ## Extended Euclidean Algorithm
 
-Finds integers `x` and `y` such that:
+Finds integers `x` and `y` satisfying
 
 ```text
-ax + by = gcd(a, b)
+ax + by = gcd(a,b)
 ```
+
+and forms the basis for modular inversion.
 
 ## Miller–Rabin
 
-Deterministic for 64-bit unsigned integers using known witness sets.
+Deterministic primality test for 64-bit integers using a known witness set.
 
 ## Pollard Rho
 
-Probabilistic integer factorization algorithm efficient for medium-sized composite numbers.
+Probabilistic integer factorization algorithm suitable for medium-sized composite integers.
 
 ## Sieve of Eratosthenes
 
-Computes all primes up to a given limit in:
+Computes all primes up to a given limit in
 
 ```text
 O(n log log n)
@@ -507,61 +377,87 @@ time.
 
 ## Euler Totient Function
 
-Computes:
+Computes
 
 ```text
-phi(n)
+φ(n)
 ```
 
 the number of integers coprime to `n`.
 
-## Möbius Function
+## Carmichael Function
 
-Computes:
+Computes
 
 ```text
-mu(n)
+λ(n)
 ```
 
-used in multiplicative number theory and inversion formulas.
+the exponent of the multiplicative group modulo `n`.
+
+For odd prime powers:
+
+```text
+λ(p^k) = φ(p^k)
+```
+
+For powers of two:
+
+```text
+λ(2) = 1
+λ(4) = 2
+λ(2^k) = 2^(k−2), k ≥ 3
+```
+
+and generally:
+
+```text
+λ(n) = lcm( λ(p1^a1), λ(p2^a2), ... )
+```
+
+## Möbius Function
+
+Computes
+
+```text
+μ(n)
+```
+
+used in inversion formulas and multiplicative number theory.
 
 ## Liouville Function
 
-Computes:
+Computes
 
 ```text
 λ(n) = (-1)^Ω(n)
 ```
 
-where Ω(n) denotes the number of prime factors counted with multiplicity.
-
-Examples:
-
-```text
-λ(12) = -1
-λ(36) = 1
-```
+where Ω counts prime factors with multiplicity.
 
 ## Dirichlet Convolution
 
-Given two arithmetic functions `f` and `g`, the Dirichlet convolution is defined as
+Given arithmetic functions `f` and `g`:
 
 ```text
 (f * g)(n)
 =
 Σ f(d) g(n/d)
-  d|n
+d|n
 ```
 
-This operation plays a central role in multiplicative number theory and allows many classical arithmetic functions to be expressed compactly:
+Important identities:
 
 ```text
 τ = 1 * 1
 σ = id * 1
 φ = id * μ
+μ * 1 = ε
 ```
 
-The library provides a generic implementation of Dirichlet convolution for arbitrary arithmetic functions.
+## Möbius Inversion
+
+Provides a constructive way to recover arithmetic functions from divisor sums using the Möbius function.
 
 ## Legendre Symbol
 
@@ -569,11 +465,28 @@ Determines whether an integer is a quadratic residue modulo an odd prime.
 
 ## Jacobi Symbol
 
-Generalization of the Legendre symbol to odd composite moduli.
+Generalizes the Legendre symbol to odd composite moduli.
 
 ## Tonelli–Shanks
 
 Computes modular square roots modulo odd primes.
+
+## Primitive Roots
+
+A primitive root modulo a prime `p` generates the entire multiplicative group
+
+```text
+(Z/pZ)^*
+```
+
+The library provides:
+
+```cpp
+is_primitive_root(g, p)
+primitive_root(p)
+```
+
+Primitive roots play a central role in cyclic groups, discrete logarithms, and public-key cryptography.
 
 ## Chinese Remainder Theorem
 
@@ -596,21 +509,17 @@ Combines compatible congruence systems into a single congruence.
 
 Potential future extensions:
 
+* multiplicative order
 * Dirichlet inverse
-* General multiplicative-function framework
-* Carmichael function λ(n)
-* Primitive roots
-* Continued fractions
+* continued fractions
 * Pell equations
 * Baby-step Giant-step discrete logarithm
-* Miller–Rabin benchmarking
-* Pollard Rho optimizations
 * RSA demonstration
-* Finite fields
-* Elliptic curves
-* Big integer arithmetic
+* finite fields
+* elliptic curves
+* big integer arithmetic
 * FFT / NTT multiplication
-* Benchmarking suite
+* benchmarking suite
 * GitHub Actions CI
 
 ---

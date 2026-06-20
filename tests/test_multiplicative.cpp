@@ -154,3 +154,12 @@ TEST_CASE( "dirichlet_convolution_epsilon_is_identity_many_values" )
         );
     }
 }
+
+TEST_CASE( "mobius_is_dirichlet_inverse_of_one" )
+{
+    for ( u64 n = 1; n <= 1000; ++n )
+    {
+        REQUIRE( dirichlet_convolution( mobius, one, n ) == epsilon( n ) );
+        REQUIRE( dirichlet_convolution( one, mobius, n ) == epsilon( n ) );
+    }
+}

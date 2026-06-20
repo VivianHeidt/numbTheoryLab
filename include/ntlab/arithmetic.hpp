@@ -31,4 +31,8 @@ namespace ntlab
     // (a^e) % m via binary exponentiation
     u64 powmod( u64 a, u64 e, u64 m ) noexcept;
 
+    u64 pow_u64(u64 base, u64 exp) noexcept;
+
+    u64 lcm(u64 a, u64 b) noexcept;
+
 } // namespace ntlab

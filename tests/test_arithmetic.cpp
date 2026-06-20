@@ -50,3 +50,24 @@ TEST_CASE( "powmod_works" )
     REQUIRE( powmod( 0, 5, 7 ) == 0 );
     REQUIRE( powmod( 5, 3, 1 ) == 0 );
 }
+
+TEST_CASE( "pow_u64_works" )
+{
+    REQUIRE( pow_u64( 2, 0 ) == 1 );
+    REQUIRE( pow_u64( 2, 1 ) == 2 );
+    REQUIRE( pow_u64( 2, 10 ) == 1024 );
+    REQUIRE( pow_u64( 3, 4 ) == 81 );
+    REQUIRE( pow_u64( 5, 3 ) == 125 );
+    REQUIRE( pow_u64( 10, 6 ) == 1000000 );
+}
+
+TEST_CASE( "lcm_works" )
+{
+    REQUIRE( lcm( 1, 1 ) == 1 );
+    REQUIRE( lcm( 2, 3 ) == 6 );
+    REQUIRE( lcm( 4, 6 ) == 12 );
+    REQUIRE( lcm( 12, 18 ) == 36 );
+    REQUIRE( lcm( 21, 6 ) == 42 );
+    REQUIRE( lcm( 0, 5 ) == 0 );
+    REQUIRE( lcm( 5, 0 ) == 0 );
+}

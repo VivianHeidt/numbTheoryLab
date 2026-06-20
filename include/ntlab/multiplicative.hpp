@@ -2,6 +2,7 @@
 #include "ntlab/types.hpp"
 #include "ntlab/utils.hpp"
 #include "ntlab/divisors.hpp"
+#include "ntlab/mobius.hpp"
 
 namespace ntlab
 {   
@@ -18,17 +19,23 @@ namespace ntlab
     u64 epsilon( u64 n );
     
     template <typename F, typename G>
-    auto dirichlet_convolution(F f, G g, u64 n)
+    auto dirichlet_convolution( F f, G g, u64 n )
     {
         auto divs = divisors( n );
 
-        auto sum = decltype(f(1) * g(1)){0};
+        auto sum = decltype( f( 1 ) * g( 1 ) ){ 0 };
 
-        for( u64 d : divs)
+        for( u64 d : divs )
         {
-            sum += f(d) * g( n / d );
+            sum += f( d ) * g( n / d );
         }
 
         return sum;
+    }
+
+    template <typename F>
+    auto mobius_inversion( F f, u64 n )
+    {
+        return dirichlet_convolution( f, mobius, n );
     }
 }

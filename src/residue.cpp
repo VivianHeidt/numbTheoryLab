@@ -1,4 +1,7 @@
 #include "ntlab/residue.hpp"
+#include "ntlab/primes.hpp"
+#include "ntlab/arithmetic.hpp"
+#include "ntlab/utils.hpp"
 
 namespace ntlab
 {
@@ -142,5 +145,58 @@ namespace ntlab
         }
 
         return r;
+    }
+
+    bool is_primitive_root( u64 g, u64 p )
+    {
+        if ( !is_prime( p ) )
+        {
+            return false;
+        }
+
+        if ( p == 2 )
+        {
+            return g % p == 1;
+        }
+
+        if ( g == 0 || g >= p )
+        {
+            return false;
+        }
+
+        auto factors = prime_factor_exponents( p - 1 );
+
+        for ( const auto& [q, exponent] : factors )
+        {
+            if ( powmod( g, ( p - 1 ) / q, p ) == 1 )
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    u64 primitive_root( u64 p )
+    {
+        if ( !is_prime( p ) )
+        {
+            throw std::invalid_argument( "primitive_root is only implemented for prime moduli" );
+        }
+
+        if ( p == 2 )
+        {
+            return 1;
+        }
+
+        for ( u64 g = 2; g < p; ++g )
+        {
+            if ( is_primitive_root( g, p ) )
+            {
+                return g;
+            }
+        }
+
+        throw std::runtime_error( "no primitive root found" );
     }
 }

@@ -13,3 +13,11 @@ TEST_CASE("phi_works")
     REQUIRE( phi( 13 ) == 12 );
     REQUIRE( phi( 36 ) == 12 );
 }
+
+TEST_CASE( "carmichael_divides_phi" )
+{
+    for ( u64 n = 1; n <= 1000; ++n )
+    {
+        REQUIRE( phi( n ) % carmichael( n ) == 0 );
+    }
+}

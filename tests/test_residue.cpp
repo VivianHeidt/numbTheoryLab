@@ -47,3 +47,46 @@ TEST_CASE("sqrt_mod_prime_returns_nullopt_for_non_residues")
     auto r = sqrt_mod_prime( 5, 13 );
     REQUIRE_FALSE( r.has_value() );
 }
+
+TEST_CASE( "is_primitive_root_works_for_prime_moduli" )
+{
+    REQUIRE( is_primitive_root( 1, 2 ) );
+
+    REQUIRE( is_primitive_root( 2, 3 ) );
+
+    REQUIRE( is_primitive_root( 2, 5 ) );
+    REQUIRE( is_primitive_root( 3, 5 ) );
+    REQUIRE_FALSE( is_primitive_root( 4, 5 ) );
+
+    REQUIRE( is_primitive_root( 3, 7 ) );
+    REQUIRE( is_primitive_root( 5, 7 ) );
+    REQUIRE_FALSE( is_primitive_root( 2, 7 ) );
+
+    REQUIRE( is_primitive_root( 3, 17 ) );
+    REQUIRE( is_primitive_root( 5, 17 ) );
+    REQUIRE_FALSE( is_primitive_root( 4, 17 ) );
+}
+
+TEST_CASE( "primitive_root_returns_valid_generator" )
+{
+    REQUIRE( primitive_root( 2 ) == 1 );
+
+    for ( u64 p : { 3, 5, 7, 11, 13, 17, 19, 23, 29, 31 } )
+    {
+        u64 g = primitive_root( p );
+
+        REQUIRE( g >= 1 );
+        REQUIRE( g < p );
+        REQUIRE( is_primitive_root( g, p ) );
+    }
+}
+
+TEST_CASE( "primitive_root_known_small_values" )
+{
+    REQUIRE( primitive_root( 2 ) == 1 );
+    REQUIRE( primitive_root( 3 ) == 2 );
+    REQUIRE( primitive_root( 5 ) == 2 );
+    REQUIRE( primitive_root( 7 ) == 3 );
+    REQUIRE( primitive_root( 11 ) == 2 );
+    REQUIRE( primitive_root( 17 ) == 3 );
+}

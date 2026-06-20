@@ -17,4 +17,8 @@ namespace ntlab
 
     std::optional<u64> sqrt_mod_prime( u64 a, u64 p );
 
+    bool is_primitive_root( u64 g, u64 p );
+
+    u64 primitive_root( u64 p );
+
 }

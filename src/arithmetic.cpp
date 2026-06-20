@@ -117,4 +117,32 @@ namespace ntlab
         return r;
     }
 
+    u64 pow_u64(u64 base, u64 exp) noexcept
+    {
+        u64 result = 1;
+
+        while (exp)
+        {
+            if (exp & 1)
+            {
+                result *= base;
+            }
+
+            base *= base;
+            exp >>= 1;
+        }
+
+        return result;
+    }
+
+    u64 lcm(u64 a, u64 b) noexcept
+    {
+        if (a == 0 || b == 0)
+        {
+            return 0;
+        }
+
+        return (a / gcd(a, b)) * b;
+    }
+
 } // namespace ntlab
