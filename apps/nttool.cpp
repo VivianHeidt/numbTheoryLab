@@ -42,7 +42,14 @@ int main( int argc, char* argv[] )
                   << "  nttool epsilon n\n"
                   << "  nttool conv one one n\n"
                   << "  nttool conv identity one n\n"
-                  << "  nttool conv identity mobius n\n";
+                  << "  nttool conv identity mobius n\n"
+                  << "  nttool pow a e\n"
+                  << "  nttool lcm a b\n"
+                  << "  nttool carmichael n\n"
+                  << "  nttool isprimitive g p\n"
+                  << "  nttool primitive_root p\n"
+                  << "  nttool conv mobius one n\n"
+                  << "  nttool conv one mobius n\n";
         return 1;
     }
 
@@ -50,7 +57,7 @@ int main( int argc, char* argv[] )
 
     try 
     {
-                if ( cmd == "gcd" && argc == 4 ) 
+        if ( cmd == "gcd" && argc == 4 ) 
         {
             u64 a = std::stoull( argv[2] );
             u64 b = std::stoull( argv[3] );
@@ -225,6 +232,66 @@ int main( int argc, char* argv[] )
         {
             u64 n = std::stoull(argv[2]);
             std::cout << epsilon(n) << "\n";
+        }
+        else if ( cmd == "conv" && argc == 5 )
+        {
+            std::string f = argv[2];
+            std::string g = argv[3];
+            u64 n = std::stoull(argv[4]);
+
+            if ( f == "one" && g == "one" )
+            {
+                std::cout << dirichlet_convolution(one, one, n) << "\n";
+            }
+            else if ( f == "identity" && g == "one" )
+            {
+                std::cout << dirichlet_convolution(identity, one, n) << "\n";
+            }
+            else if ( f == "identity" && g == "mobius" )
+            {
+                std::cout << dirichlet_convolution(identity, mobius, n) << "\n";
+            }
+            else if ( f == "mobius" && g == "one" )
+            {
+                std::cout << dirichlet_convolution(mobius, one, n) << "\n";
+            }
+            else if ( f == "one" && g == "mobius" )
+            {
+                std::cout << dirichlet_convolution(one, mobius, n) << "\n";
+            }
+            else
+            {
+                std::cerr << "Unsupported convolution. Supported: one one, identity one, identity mobius, mobius one, one mobius\n";
+                return 2;
+            }
+        }
+        else if ( cmd == "pow" && argc == 4 )
+        {
+            u64 a = std::stoull(argv[2]);
+            u64 e = std::stoull(argv[3]);
+            std::cout << pow_u64(a, e) << "\n";
+        }
+        else if ( cmd == "lcm" && argc == 4 )
+        {
+            u64 a = std::stoull(argv[2]);
+            u64 b = std::stoull(argv[3]);
+            std::cout << lcm(a, b) << "\n";
+        }
+        else if ( cmd == "carmichael" && argc == 3 )
+        {
+            u64 n = std::stoull(argv[2]);
+            std::cout << carmichael(n) << "\n";
+        }
+        else if ( cmd == "isprimitive" && argc == 4 )
+        {
+            u64 g = std::stoull(argv[2]);
+            u64 p = std::stoull(argv[3]);
+            std::cout << (is_primitive_root(g, p) ? "true\n" : "false\n");
+        }
+        else if ( cmd == "primitive_root" && argc == 3 )
+        {
+            u64 p = std::stoull(argv[2]);
+            std::cout << primitive_root(p) << "\n";
         }
         else 
         {
